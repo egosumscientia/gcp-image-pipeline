@@ -5,7 +5,7 @@ resource "google_storage_bucket" "raw_bucket" {
   name                        = var.raw_bucket_name
   location                    = var.region
   uniform_bucket_level_access = true
-  force_destroy               = false
+  force_destroy               = true
 
   versioning {
     enabled = false
@@ -28,7 +28,7 @@ resource "google_storage_bucket" "processed_bucket" {
   name                        = var.processed_bucket_name
   location                    = var.region
   uniform_bucket_level_access = true
-  force_destroy               = false
+  force_destroy               = true
 
   versioning {
     enabled = false
