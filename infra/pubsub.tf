@@ -34,6 +34,21 @@ resource "google_pubsub_subscription" "image_events_sub" {
 # ---------------------------------------------------------
 # Vinculación GCS → Pub/Sub (eventos OBJECT_FINALIZE)
 # ---------------------------------------------------------
+# IAM para que Storage pueda publicar en el topic
+data "google_storage_project_service_account" "storage_sa" {
+  project = var.project_id
+
+  depends_on = [
+    google_project_service.services
+  ]
+}
+
+resource "google_pubsub_topic_iam_member" "storage_publisher" {
+  topic = google_pubsub_topic.image_events.name
+  role  = "roles/pubsub.publisher"
+  member = "serviceAccount:${data.google_storage_project_service_account.storage_sa.email_address}"
+}
+
 resource "google_storage_notification" "raw_object_finalize" {
   bucket         = google_storage_bucket.raw_bucket.name
   topic          = google_pubsub_topic.image_events.id
@@ -44,13 +59,6 @@ resource "google_storage_notification" "raw_object_finalize" {
   ]
 
   depends_on = [
-    google_pubsub_topic.image_events
+    google_pubsub_topic_iam_member.storage_publisher
   ]
-}
-
-# IAM para que Storage pueda publicar en el topic
-resource "google_pubsub_topic_iam_member" "storage_publisher" {
-  topic = google_pubsub_topic.image_events.name
-  role  = "roles/pubsub.publisher"
-  member = "serviceAccount:service-${var.project_number}@gs-project-accounts.iam.gserviceaccount.com"
 }
