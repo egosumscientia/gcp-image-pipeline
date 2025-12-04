@@ -123,3 +123,10 @@ terraform destroy
 ## Licencia
 
 Este proyecto se distribuye sin garantías. Uso interno y educativo.
+
+
+
+************************
+terraform init
+terraform plan -var-file="terraform.tfvars"
+terraform apply -var-file="terraform.tfvars"
