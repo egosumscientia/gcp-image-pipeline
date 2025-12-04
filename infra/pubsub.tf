@@ -18,7 +18,7 @@ resource "google_pubsub_subscription" "image_events_sub" {
   retain_acked_messages      = false
 
   push_config {
-    push_endpoint = google_cloud_run_v2_service.image_processor.uri
+    push_endpoint = google_cloud_run_service.image_processor.status[0].url
 
     oidc_token {
       service_account_email = google_service_account.pubsub_sa.email
@@ -26,7 +26,7 @@ resource "google_pubsub_subscription" "image_events_sub" {
   }
 
   depends_on = [
-    google_cloud_run_v2_service.image_processor
+    google_cloud_run_service.image_processor
   ]
 }
 
@@ -35,7 +35,7 @@ resource "google_pubsub_subscription" "image_events_sub" {
 # Vinculación GCS → Pub/Sub (eventos OBJECT_FINALIZE)
 # ---------------------------------------------------------
 resource "google_storage_notification" "raw_object_finalize" {
-  bucket         = var.raw_bucket_name
+  bucket         = google_storage_bucket.raw_bucket.name
   topic          = google_pubsub_topic.image_events.id
   payload_format = "JSON_API_V1"
 

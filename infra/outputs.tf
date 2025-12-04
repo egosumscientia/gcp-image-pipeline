@@ -20,7 +20,7 @@ output "pubsub_subscription" {
 
 output "cloud_run_url" {
   description = "URL del servicio Cloud Run encargado del procesamiento."
-  value       = google_cloud_run_v2_service.image_processor.uri
+  value       = google_cloud_run_service.image_processor.status[0].url
 }
 
 output "cloud_run_service_account" {
