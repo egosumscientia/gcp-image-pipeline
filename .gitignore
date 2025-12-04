@@ -1,0 +1,41 @@
+# --- Terraform ---
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+.crash
+.terraform/
+.terraform.lock.hcl
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env
+venv/
+.venv/
+env/
+ENV/
+
+# --- Docker ---
+*.log
+docker-build/
+.tmp/
+
+# --- VSCode ---
+.vscode/
+.history/
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- App artifacts ---
+app/__pycache__/
+app/*.log
+
+# --- Generated docs ---
+docs/*.png
+docs/*.svg
