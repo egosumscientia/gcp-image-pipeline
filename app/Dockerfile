@@ -29,4 +29,5 @@ COPY processor.py .
 ENV PORT=8080
 
 # Comando de inicio (Gunicorn con Flask)
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "processor:app"]
+CMD ["python", "processor.py"]
+
