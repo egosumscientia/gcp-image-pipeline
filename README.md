@@ -130,3 +130,23 @@ Este proyecto se distribuye sin garantías. Uso interno y educativo.
 terraform init
 terraform plan -var-file="terraform.tfvars"
 terraform apply -var-file="terraform.tfvars"
+
+
+************************
+
+1. Flujo real:
+
+Tienes imágenes locales en Windows:
+C:\Users\TU_USUARIO\Downloads\foto1.jpg, foto2.png, etc.
+
+Las copias al bucket RAW:
+gs://imaging-pipeline-prod-raw/uploads/foto1.jpg
+
+Cuando termina la subida, Cloud Storage genera el evento OBJECT_FINALIZE.
+
+Pub/Sub envía el mensaje a Cloud Run.
+
+Cloud Run descarga la imagen, la procesa y la sube a:
+gs://imaging-pipeline-prod-processed/...
+
+Nada pasa mientras los archivos estén solo en Downloads.
